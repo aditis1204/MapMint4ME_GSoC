@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MapMint4ME-master.iml" filepath="$PROJECT_DIR$/.idea/modules/MapMint4ME-master.iml" group="MapMint4ME-master" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MapMint4ME-master-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MapMint4ME-master-app.iml" group="MapMint4ME-master/app" />
+      <module fileurl="file://$PROJECT_DIR$/MapMint4ME_final.iml" filepath="$PROJECT_DIR$/MapMint4ME_final.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+    </modules>
+  </component>
+</project>
