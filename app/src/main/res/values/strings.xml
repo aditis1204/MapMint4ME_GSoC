@@ -156,4 +156,5 @@
     <string name="gps_out_of_service">gps_out_of_service</string>
     <string name="gps_searching">gps_searching</string>
     <string name="gps_stabilizing">gps_stabilizing</string>
+    <string name="tab_gpsfix1">GPS coordinates</string>
 </resources>

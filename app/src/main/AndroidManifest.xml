@@ -101,7 +101,7 @@
         <activity
             android:name="Satellite.GPSActivity"
             android:exported="true"
-            android:label="GPS Status Information"
+            android:label="GPS Satellite Information"
             android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
