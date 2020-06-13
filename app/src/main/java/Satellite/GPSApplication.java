@@ -118,7 +118,9 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
     private boolean isContextMenuShareVisible = false;          // True if "Share with ..." menu is visible
     private boolean isContextMenuViewVisible = false;           // True if "View in *" menu is visible
     private String ViewInApp = "";                              // The string of default app name for "View"
-                                                                // "" in case of selector
+    // "" in case of selector
+
+    private String _satelliteList = "";
 
     // Singleton instance
     private static GPSApplication singleton;
@@ -803,8 +805,15 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
                     Iterable<GpsSatellite> sats = gs.getSatellites();
                     for (GpsSatellite sat : sats) {
                         sats_inview++;
-                        if (sat.usedInFix()) sats_used++;
-                        //Log.w("myApp", "[#] GPSApplication.java - updateSats: i=" + i);
+                        if (sat.usedInFix()) {
+                            sats_used++;
+                            _satelliteList = "PRN Number:"+sat.getPrn() + ", " +"Signal to noise ratio:"+
+                                    sat.getSnr() + ", " +"Azimuth Angle:"+sat.getAzimuth()+","+"Elevation of Satellite:"+sat.getElevation()+","
+                                    +"Is satellite used to fix location or not?:"+sat.usedInFix();
+                            System.out.println(_satelliteList);
+
+                        }
+
                     }
                     _NumberOfSatellites = sats_inview;
                     _NumberOfSatellitesUsedInFix = sats_used;
