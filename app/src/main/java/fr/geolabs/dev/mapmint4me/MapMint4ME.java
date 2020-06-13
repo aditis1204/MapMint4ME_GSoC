@@ -504,7 +504,7 @@ public class MapMint4ME extends Activity implements
     }
 
     public void launchWelcomeScreen7() {
-        startActivity(new Intent(getApplicationContext(), Satellite.GPSActivity_sat.class));
+        startActivity(new Intent(getApplicationContext(), Satellite.GPSActivity.class));
         finish();
 
 

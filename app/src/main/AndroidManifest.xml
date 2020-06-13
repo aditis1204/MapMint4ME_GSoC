@@ -110,13 +110,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name="Satellite.GPSService"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="eu.basicairdata.graziano.gpslogger.GPSService" />
-            </intent-filter>
-        </service>
 
 
 
