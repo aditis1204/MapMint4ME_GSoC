@@ -6,5 +6,7 @@
 * getSnr() method returns signal to noise ratio
 * usedInFix() method returns Returns true if the satellite was used by the GPS engine when calculating the most recent GPS fix
 * Currently all above methods give outputs on the android studio console.
+
+
 <img src = "output/output.png" />
 
