@@ -199,12 +199,12 @@ public class FragmentGPSFix extends Fragment {
                 TVLongitude.setText(phdLongitude.Value);
                 TVLatitudeUM.setText(phdLatitude.UM);
                 TVLongitudeUM.setText(phdLongitude.UM);
-                TVAltitude.setText(phdAltitude.Value);TVAltitudeUM.setText(phdAltitude.UM);
+              //  TVAltitude.setText(phdAltitude.Value);TVAltitudeUM.setText(phdAltitude.UM);
                 //TVSpeed.setText(phdSpeed.Value);
                 //TVSpeedUM.setText(phdSpeed.UM);
-                TVBearing.setText(phdBearing.Value);
-                TVAccuracy.setText(phdAccuracy.Value);
-                TVAccuracyUM.setText(phdAccuracy.UM);
+               // TVBearing.setText(phdBearing.Value);
+                //TVAccuracy.setText(phdAccuracy.Value);
+                //TVAccuracyUM.setText(phdAccuracy.UM);
                 //  TVTime.setText(phdTime.Value);
                 TVSatellites.setText(location.getNumberOfSatellitesUsedInFix() != NOT_AVAILABLE ? location.getNumberOfSatellitesUsedInFix() + "/" + location.getNumberOfSatellites() : "");
                 int i =0;
