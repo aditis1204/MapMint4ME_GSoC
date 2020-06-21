@@ -10,5 +10,5 @@
 * Screenshots:
 
 
-<img src = "output/output.png" />
+<img src = "output/op1.jpg" width = "250" height="500" />
 
