@@ -12,3 +12,4 @@
 
 <img src = "output/op1.jpg" width = "250" height="500" />
 
+<img src = "output/op2.jpg" width = "250" height="500" />
