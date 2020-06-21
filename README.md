@@ -8,7 +8,6 @@
 * usedInFix() method returns Returns true if the satellite was used by the GPS engine when calculating the most recent GPS fix
 * Module Integrated with existing MapMint4ME.
 * Screenshots:
+<img src = "output/op1.jpg" width = "250" height="500" />
 
-
-<img src = "output/output.png" />
-
+<img src = "output/op2.jpg" width = "250" height="500" />
