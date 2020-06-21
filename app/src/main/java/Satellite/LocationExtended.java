@@ -12,6 +12,7 @@ public class LocationExtended {
     private double _AltitudeEGM96Correction = NOT_AVAILABLE;
     private int _NumberOfSatellites = NOT_AVAILABLE;
     private int _NumberOfSatellitesUsedInFix = NOT_AVAILABLE;
+    private String Satellite_info = "";
 
 
     // Constructor
@@ -36,6 +37,7 @@ public class LocationExtended {
     public float getAccuracy() { return _Location.hasAccuracy() ? _Location.getAccuracy() : NOT_AVAILABLE; }
     public float getBearing() { return _Location.hasBearing() ? _Location.getBearing() : NOT_AVAILABLE; }
     public long getTime() { return _Location.getTime(); }
+    public String getSatellite_info(){return Satellite_info; }
 
     public String getDescription() {
         return _Description;
@@ -57,9 +59,17 @@ public class LocationExtended {
         _NumberOfSatellitesUsedInFix = numberOfSatellites;
     }
 
+    public void setSatellite_info(String satellite_info){
+        this.Satellite_info = satellite_info;
+
+
+    }
+
     public int getNumberOfSatellitesUsedInFix() {
         return _NumberOfSatellitesUsedInFix;
     }
+
+
 
     public double getAltitudeEGM96Correction(){
         if (_AltitudeEGM96Correction == NOT_AVAILABLE) {
@@ -80,5 +90,8 @@ public class LocationExtended {
         }
         return NOT_AVAILABLE;
     }
+
+
+
 }
 

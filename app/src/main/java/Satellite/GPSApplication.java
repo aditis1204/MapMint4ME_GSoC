@@ -50,6 +50,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import fr.geolabs.dev.mapmint4me.R;
 
+
 public class GPSApplication extends Application implements GpsStatus.Listener, LocationListener {
 
     //private static final float M_TO_FT = 3.280839895f;
@@ -118,9 +119,8 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
     private boolean isContextMenuShareVisible = false;          // True if "Share with ..." menu is visible
     private boolean isContextMenuViewVisible = false;           // True if "View in *" menu is visible
     private String ViewInApp = "";                              // The string of default app name for "View"
-    // "" in case of selector
-
     private String _satelliteList = "";
+    // "" in case of selector
 
     // Singleton instance
     private static GPSApplication singleton;
@@ -390,18 +390,6 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
         }
     }
 
-    public boolean isContextMenuShareVisible() {
-        return isContextMenuShareVisible;
-    }
-
-    public boolean isContextMenuViewVisible() {
-        return isContextMenuViewVisible;
-    }
-
-    public String getViewInApp() {
-        return ViewInApp;
-    }
-
     public boolean isLocationPermissionChecked() {
         return LocationPermissionChecked;
     }
@@ -422,13 +410,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
         return GPSStatus;
     }
 
-    public int getPrefKMLAltitudeMode() {
-        return prefKMLAltitudeMode;
-    }
 
-    public int getPrefGPXVersion() {
-        return prefGPXVersion;
-    }
 
     public double getPrefAltitudeCorrection() {
         return prefAltitudeCorrection;
@@ -442,17 +424,6 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
         return prefShowDecimalCoordinates;
     }
 
-    public boolean getPrefExportKML() {
-        return prefExportKML;
-    }
-
-    public boolean getPrefExportGPX() {
-        return prefExportGPX;
-    }
-
-    public boolean getPrefExportTXT() {
-        return prefExportTXT;
-    }
 
     public int getPrefUM() {
         return prefUM;
@@ -480,6 +451,10 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
 
     public int getNumberOfSatellites() {
         return _NumberOfSatellites;
+    }
+
+    public String get_satelliteList() {
+        return _satelliteList;
     }
 
     public int getNumberOfSatellitesUsedInFix() {
@@ -578,7 +553,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
     // Flags are Boolean SharedPreferences that are excluded by automatic Backups
 
     public void FlagAdd (String flag) {
-        SharedPreferences preferences_nobackup = getSharedPreferences("prefs_nobackup", Context.MODE_PRIVATE);
+        SharedPreferences preferences_nobackup = getSharedPreferences("prefs_nobackup",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences_nobackup.edit();
         editor.putBoolean(flag, true);
         editor.commit();
@@ -586,7 +561,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
 
 
     public void FlagRemove (String flag) {
-        SharedPreferences preferences_nobackup = getSharedPreferences("prefs_nobackup", Context.MODE_PRIVATE);
+        SharedPreferences preferences_nobackup = getSharedPreferences("prefs_nobackup",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences_nobackup.edit();
         editor.remove(flag);
         editor.commit();
@@ -594,7 +569,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
 
 
     public boolean FlagExists (String flag) {
-        SharedPreferences preferences_nobackup = getSharedPreferences("prefs_nobackup", Context.MODE_PRIVATE);
+        SharedPreferences preferences_nobackup = getSharedPreferences("prefs_nobackup",Context.MODE_PRIVATE);
         return preferences_nobackup.getBoolean(flag, false);
     }
 
@@ -735,7 +710,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
         if (msg == EventBusMSG.APP_PAUSE) {
             handler.postDelayed(r, getHandlerTimer());  // Starts the switch-off handler (delayed by HandlerTimer)
             if ((_currentTrack.getNumberOfLocations() == 0) && (_currentTrack.getNumberOfPlacemarks() == 0)
-                && (!Recording) && (!PlacemarkRequest)) StopAndUnbindGPSService();
+                    && (!Recording) && (!PlacemarkRequest)) StopAndUnbindGPSService();
             System.gc();                                // Clear mem from released objects with Garbage Collector
             return;
         }
@@ -805,15 +780,20 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
                     Iterable<GpsSatellite> sats = gs.getSatellites();
                     for (GpsSatellite sat : sats) {
                         sats_inview++;
+
                         if (sat.usedInFix()) {
                             sats_used++;
-                            _satelliteList = "PRN Number:"+sat.getPrn() + ", " +"Signal to noise ratio:"+
-                                    sat.getSnr() + ", " +"Azimuth Angle:"+sat.getAzimuth()+","+"Elevation of Satellite:"+sat.getElevation()+","
-                                    +"Is satellite used to fix location or not?:"+sat.usedInFix();
-                            System.out.println(_satelliteList);
+                            int i =0;
+                            if(i<5){
 
+                                _satelliteList = _satelliteList+ "PRN No:" +sat.getPrn() + ", SNR: " + sat.getSnr() + ", Azimuth " +sat.getAzimuth()+", Elevation:"+sat.getElevation()+"\n";
+                                Log.d("Satellite_info",_satelliteList);
+                                i = i+1;
+
+
+                            }
                         }
-
+                        //Log.w("myApp", "[#] GPSApplication.java - updateSats: i=" + i);
                     }
                     _NumberOfSatellites = sats_inview;
                     _NumberOfSatellitesUsedInFix = sats_used;
@@ -893,7 +873,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
             for (Track T : _ArrayListTracks) {
                 if (T.isSelected()) {
                     T.setSelected(false);
-                 //   EventBus.getDefault().post(new EventBusMSGNormal(EventBusMSG.TRACKLIST_DESELECT, T.getId()));
+                    //   EventBus.getDefault().post(new EventBusMSGNormal(EventBusMSG.TRACKLIST_DESELECT, T.getId()));
                 }
             }
         }
@@ -919,30 +899,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
         JobType = jobType;
     }
 
-/*
-    public void ExecuteExportingTask (ExportingTask exportingTask) {
-        switch (JobType) {
-            case JOB_TYPE_NONE:
-            case JOB_TYPE_DELETE:
-                break;
-            case JOB_TYPE_EXPORT:
-                Ex = new Exporter(exportingTask, prefExportKML, prefExportGPX, prefExportTXT, Environment.getExternalStorageDirectory() + "/GPSLogger");
-                Ex.start();
-                break;
-            case JOB_TYPE_VIEW:
-                if (prefViewTracksWith == 0) Ex = new Exporter(exportingTask, true, false, false, Environment.getExternalStorageDirectory() + "/GPSLogger/AppData");
-                if (prefViewTracksWith == 1) Ex = new Exporter(exportingTask, false, true, false, Environment.getExternalStorageDirectory() + "/GPSLogger/AppData");
-                Ex.start();
-                break;
-            case JOB_TYPE_SHARE:
-                Ex = new Exporter(exportingTask, prefExportKML, prefExportGPX, prefExportTXT, Environment.getExternalStorageDirectory() + "/GPSLogger/AppData");
-                Ex.start();
-                break;
-            default:
-                break;
-        }
-    }
-*/
+
     public void ExecuteJob () {
         if (!ExportingTaskList.isEmpty()) {
             switch (JobType) {
@@ -1059,10 +1016,13 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
             //loc.setTime(loc.getTime() - 619315200000L);                               // Commented out, it simulate the old GPS hardware Timestamp
             if (loc.getTime() <= 1388534400000L)                                        // if the Location Time is <= 01/01/2014 00:00:00.000
                 loc.setTime(loc.getTime() + 619315200000L);                             // Timestamp incremented by 1024×7×24×60×60×1000 = 619315200000 ms
-                                                                                        // This value must be doubled every 1024 weeks !!!
+            // This value must be doubled every 1024 weeks !!!
             LocationExtended eloc = new LocationExtended(loc);
             eloc.setNumberOfSatellites(getNumberOfSatellites());
             eloc.setNumberOfSatellitesUsedInFix(getNumberOfSatellitesUsedInFix());
+            eloc.setSatellite_info(get_satelliteList());
+
+            // eloc.setSatelliteDescription(get_satelliteList());
             boolean ForceRecord = false;
 
             gpsunavailablehandler.removeCallbacks(unavailr);                            // Cancel the previous unavail countdown handler
@@ -1115,9 +1075,11 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
                     _currentPlacemark = new LocationExtended(loc);
                     _currentPlacemark.setNumberOfSatellites(getNumberOfSatellites());
                     _currentPlacemark.setNumberOfSatellitesUsedInFix(getNumberOfSatellitesUsedInFix());
+                    _currentPlacemark.setSatellite_info(get_satelliteList());
                     PlacemarkRequest = false;
                     EventBus.getDefault().post(EventBusMSG.UPDATE_TRACK);
                     EventBus.getDefault().post(EventBusMSG.REQUEST_ADD_PLACEMARK);
+
                 }
                 PrevFix = eloc;
             }
@@ -1171,7 +1133,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
         if (ID > 0) {
             synchronized(_ArrayListTracks) {
                 // Save Selections
-                ArrayList<Long> SelectedT = new ArrayList<>();
+                ArrayList <Long> SelectedT = new ArrayList<>();
                 for (Track T : _ArrayListTracks) {
                     if (T.isSelected()) SelectedT.add(T.getId());
                 }
@@ -1239,7 +1201,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
         prefGPSdistance = Float.valueOf(preferences.getString("prefGPSdistance", "0"));
         prefEGM96AltitudeCorrection = preferences.getBoolean("prefEGM96AltitudeCorrection", false);
         prefAltitudeCorrection = Double.valueOf(preferences.getString("prefAltitudeCorrection", "0"));
-            Log.w("myApp", "[#] GPSApplication.java - Manual Correction set to " + prefAltitudeCorrection + " m");
+        Log.w("myApp", "[#] GPSApplication.java - Manual Correction set to " + prefAltitudeCorrection + " m");
         prefExportKML = preferences.getBoolean("prefExportKML", true);
         prefExportGPX = preferences.getBoolean("prefExportGPX", true);
         prefExportTXT = preferences.getBoolean("prefExportTXT", false);
@@ -1356,6 +1318,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
                     locationExtended = new LocationExtended(asyncTODO.location.getLocation());
                     locationExtended.setNumberOfSatellites(asyncTODO.location.getNumberOfSatellites());
                     locationExtended.setNumberOfSatellitesUsedInFix(asyncTODO.location.getNumberOfSatellitesUsedInFix());
+                    locationExtended.setSatellite_info(asyncTODO.location.getSatellite_info());
                     _currentLocationExtended = locationExtended;
                     EventBus.getDefault().post(EventBusMSG.UPDATE_FIX);
                     track.add(locationExtended);
@@ -1372,6 +1335,8 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
                     locationExtended.setDescription(asyncTODO.location.getDescription());
                     locationExtended.setNumberOfSatellites(asyncTODO.location.getNumberOfSatellites());
                     locationExtended.setNumberOfSatellitesUsedInFix(asyncTODO.location.getNumberOfSatellitesUsedInFix());
+                    locationExtended.setSatellite_info(asyncTODO.location.getSatellite_info());
+                    // locationExtended.setSatelliteinfo(asyncTODO.location.get_satellit)
                     track.addPlacemark(locationExtended);
                     GPSDataBase.addPlacemarkToTrack(locationExtended, track);
                     _currentTrack = track;
@@ -1384,6 +1349,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
                     _currentLocationExtended = new LocationExtended(asyncTODO.location.getLocation());
                     _currentLocationExtended.setNumberOfSatellites(asyncTODO.location.getNumberOfSatellites());
                     _currentLocationExtended.setNumberOfSatellitesUsedInFix(asyncTODO.location.getNumberOfSatellitesUsedInFix());
+                    _currentLocationExtended.setSatellite_info(asyncTODO.location.getSatellite_info());
                     EventBus.getDefault().post(EventBusMSG.UPDATE_FIX);
                 }
 
@@ -1506,7 +1472,7 @@ public class GPSApplication extends Application implements GpsStatus.Listener, L
                 BGPaint.setStrokeJoin(Paint.Join.ROUND);
                 BGPaint.setStrokeCap(Paint.Cap.ROUND);
 
-            //    EndDotdrawPaint.setColor(getResources().getColor(R.color.colorThumbnailLineColor));
+                //    EndDotdrawPaint.setColor(getResources().getColor(R.color.colorThumbnailLineColor));
                 EndDotdrawPaint.setAntiAlias(true);
                 EndDotdrawPaint.setStrokeWidth(getResources().getDimension(R.dimen.thumbLineWidth) * 2.5f);
                 EndDotdrawPaint.setStyle(Paint.Style.STROKE);
